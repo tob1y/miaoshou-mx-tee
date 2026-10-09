@@ -1,0 +1,16 @@
+{
+  "name": "six_color_mx",
+  "allowed_colors": ["black", "white", "red", "pink", "light_blue", "navy"],
+  "sizes": ["S", "M", "L", "XL", "2XL", "3XL"],
+  "size_write_style": "2xl",
+  "delete_sizes": ["XS", "4XL", "5XL", "6XL"],
+  "title_max_chars": 200,
+  "title_min_chars": 25,
+  "main_image_target": 9,
+  "weight_g": 200,
+  "dimensions": { "length": 30, "width": 25, "height": 5 },
+  "rules": {
+    "price": { "enabled": false, "value": 199 },
+    "stock": { "enabled": true, "value": 100 }
+  }
+}

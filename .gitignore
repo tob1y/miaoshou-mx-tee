@@ -1,0 +1,36 @@
+# secrets — never commit
+config/settings.yaml
+config/settings.portable.yaml
+.env
+.env.*
+*.pem
+credentials.json
+
+# runtime / logs / reports
+data/
+*.db
+*.xlsx
+*.log
+
+# python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+.pytest_cache/
+.mypy_cache/
+
+# pyinstaller / portable builds
+build/
+dist/
+*.spec.bak
+
+# OS / editor
+.DS_Store
+Thumbs.db
+Desktop.ini
+.idea/
+.vscode/
+*.swp

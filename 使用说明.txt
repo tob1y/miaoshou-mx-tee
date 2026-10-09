@@ -1,0 +1,91 @@
+可用产品目录: E:\tk-miaoshou-rework\clean_rebuild
+
+====================
+一、先填密钥
+====================
+编辑 config\settings.yaml：
+
+  miaoshou.app_key     = 开放平台 App ID / AppKey
+  miaoshou.app_secret  = App Secret
+
+权限需包含 TikTok 采集箱相关接口。
+若 shops 报签名错误，把 sign_join 改成 ampersand 再试。
+
+====================
+二、放素材
+====================
+把底衫图放到:
+  assets\blank_tees\
+按文件名排序，主图不足 9 张时会规划补齐（本地路径会记在预览里；上传URL接口待补）。
+
+====================
+三、改方案（颜色等）
+====================
+config\schemes\default.json     默认黑白
+config\schemes\six_colors.json  六色
+
+字段 allowed_colors 可改，例如:
+  ["black","white","pink"]
+
+====================
+四、命令
+====================
+cd /d E:\tk-miaoshou-rework\clean_rebuild
+
+python -m pip install -r requirements.txt
+
+# 1) 本地样例（不连网）
+python main.py dry-run
+
+# 2) 测 API 签名/店铺权限
+python main.py shops
+
+# 3) 预览真实采集箱商品（不写回）
+python main.py preview --detail-id <采集箱detailId> --shop-id <店铺ID>
+
+# 4) 确认预览后写回 + 回读校验
+python main.py apply --detail-id <detailId> --shop-id <shopId> --confirm
+
+指定方案:
+  python main.py preview --detail-id ... --shop-id ... --scheme six_colors
+
+====================
+五、已实现
+====================
+- 妙手签名客户端（CONFIRMED headers/paths）
+- 读取/保存 shopCollectItemInfo
+- 尺码强制 S-3XL（写出 2XL/3XL，读兼容 XXL）
+- 颜色按方案 allowed_colors 过滤；款号规格跳过删色
+- 标题西语模版化
+- 主图补齐规划
+- 保存后回读基础校验
+- SQLite 运行日志 data\runs.db
+- **托比改品台 GUI**：`gui_app.py` / 双击 `启动改品台.bat`
+
+====================
+六、尚未完成（不影响先测改色/尺码/标题）
+====================
+- 本地图片上传换 URL
+- 采集链接→认领全自动流水线（可先手动在妙手拿到 detailId）
+- 仓库库存映射精细修复
+- AI 标题润色（当前规则模板已够用）
+- 发布弹窗部分高级项依赖开放平台是否接收 publishOptions（未知字段可能被忽略）
+
+====================
+七、自动上架（小赵1店弹窗标准）
+====================
+配置文件: config\publish_xiaozhao.yaml
+（立即发布 / 0.2kg / 25×22×4 / 西语翻译 / 过滤已发布 / 标题255截断 等）
+
+# 只看配置与组包（不调接口、不改商品）
+python main.py publish-config
+python main.py publish --detail-id 123 --offline
+
+# dry-run：可读商品做截断预览，但不发布
+python main.py publish --detail-id 123
+
+# 真正创建发布任务（危险，需确认）
+python main.py publish --detail-id 123 --confirm
+
+# 查发布记录
+python main.py publish-status

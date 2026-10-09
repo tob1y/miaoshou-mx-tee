@@ -1,0 +1,68 @@
+# 明日查看（过夜测试结果）
+
+时间：2026-09-08 晚  
+项目：`E:\tk-miaoshou-rework\clean_rebuild`
+
+## 结论（先看这）
+
+**本地规则改品链路：合理且稳定（8/8 回归通过）。**  
+**线上妙手 API：还不能测**——`config/settings.yaml` 里仍是 `YOUR_APP_KEY`，本机也无环境变量密钥。
+
+你明天第一件事：填密钥 → `python main.py doctor` → `python main.py shops`。
+
+---
+
+## 本地已验证（合理结果）
+
+| 场景 | 结果 |
+|------|------|
+| 多色含 Verde | 删除 Verde，保留 Negro/Blanco |
+| 仅黑色 | 不强制补白，颜色不动 |
+| 规格为 YT1238 款号 | 不删色，只补尺码 |
+| 尺码 M/XXL | 补齐为 S M L XL **2XL** 3XL |
+| 标题 | 含 Playera、100% Algodón、Tallas S-3XL、1 Pieza，≤200 |
+| 主图 1～2 张 | 规划补到 9（本地路径） |
+| 六色方案 | Rosa/Negro 保留，Amarillo 删除 |
+| `python main.py doctor` | 本地回归 exit 0 |
+
+报告文件：
+- `data/overnight_test_report.json` → passed: 8, failed: 0
+- `data/previews/dryrun_*.json`
+- `data/previews/scheme_default_*.json`
+- `data/previews/scheme_six_colors_*.json`
+
+---
+
+## 明天你怎么接线上（5 分钟）
+
+1. 编辑 `config\settings.yaml`，填入开放平台 AppKey / AppSecret  
+   （或设环境变量 `MIAOSHOU_APP_KEY` / `MIAOSHOU_APP_SECRET`）
+2. 底衫真图放进 `assets\blank_tees\`（现在只有占位小图）
+3. 运行：
+
+```bat
+cd /d E:\tk-miaoshou-rework\clean_rebuild
+python main.py doctor
+python main.py shops
+python main.py preview --detail-id <采集箱detailId> --shop-id <店铺ID>
+python main.py apply --detail-id ... --shop-id ... --confirm
+```
+
+若 `shops` 签名失败：把 `sign_join` 改成 `ampersand` 再试。
+
+---
+
+## 已知未完成（不影响先测色/码/标题）
+
+1. 本地补图 → 妙手图片 URL 上传  
+2. 链接采集→认领全自动（目前用手填 detailId/shopId）  
+3. 仓库库存映射精细修复  
+4. 无密钥故 **0 次真实写回**
+
+---
+
+## 目录
+
+- 产品：`clean_rebuild\`
+- 逆向报告：`reverse\reports\`
+- 使用说明：`clean_rebuild\使用说明.txt`

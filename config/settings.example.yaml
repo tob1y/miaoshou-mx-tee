@@ -1,0 +1,75 @@
+# 复制为 settings.yaml 后填自己的密钥（settings.yaml 不会进 Git）
+#   copy config\settings.example.yaml config\settings.yaml
+
+miaoshou:
+  base_url: "https://openapi-erp.91miaoshou.com"
+  app_key: "YOUR_APP_KEY"
+  app_secret: "YOUR_APP_SECRET"
+  timeout_seconds: 60
+  min_request_interval_seconds: 0.8
+  # 若签名校验失败，可改成 ampersand 再试
+  sign_join: "concat"
+  platform: "tiktok"          # TK 普通店；全球店用 tiktokGlobal
+  site: "MX"
+  default_shop_id: 0          # 自己的店铺 ID
+  default_shop_name: ""
+
+paths:
+  blank_tee_dir: "assets/blank_tees"
+  preview_dir: "data/previews"
+  db_path: "data/runs.db"
+
+# 开放平台不支持本地上传；主图不足时按此公网 URL 补齐
+fill_image_urls: []
+# fill_image_urls:
+#   - "https://your-cdn.example.com/tee/001.webp"
+
+detail_image_urls: []
+
+default_scheme: "default"
+
+feishu:
+  app_id: ""
+  app_secret: ""
+  bitable_app_token: ""
+  bitable_table_id: ""
+  link_field: "上传链接"
+  inbound_status_field: "入库状态"
+  inbound_time_field: "入库时间"
+  publish_status_field: "上架状态"
+  publish_time_field: "上架时间"
+  shop_field: "分配店铺"
+  hold_reason_field: "门禁原因"
+  detail_id_field: "妙手detailId"
+  poll_interval_seconds: 3600
+  batch_size: 200
+  daily_limit_per_shop: 300
+  yes_value: "是"
+  no_value: "否"
+  split:
+    - shop_id: 0
+      shop_name: "店铺A"
+      ratio: 0.5
+    - shop_id: 0
+      shop_name: "店铺B"
+      ratio: 0.5
+
+vision:
+  enabled: true
+  provider: openai
+  api_key: "YOUR_OPENAI_API_KEY"
+  model: "gpt-4o-mini"
+  base_url: "https://api.openai.com/v1"
+  hold_on_contrast_sleeves: true
+  body_color_qc: true
+  delete_only_no_fill: true
+  hold_on_unclear: true
+  hold_on_tank_top: true
+  hold_only_if_confident: true
+  scan_main_images: true
+  scan_option_images: true
+  max_images: 20
+  max_main_images: 4
+  max_option_images: 8
+  cache_image_results: true
+  image_detail: low

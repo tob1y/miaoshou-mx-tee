@@ -1,0 +1,62 @@
+# 小赵1店 — 发布产品弹窗标准（与妙手 UI 对齐）
+# 默认 dry-run；真正发布必须显式 --confirm
+
+site: "MX"
+shop_id: 18545044
+shop_name: "小赵1店"
+
+# 发布时间：immediate | schedule
+publish_mode: "immediate"
+# schedule 时用（Unix 秒或 'YYYY-MM-DD HH:MM:SS'）；immediate 忽略
+schedule_at: null
+
+package:
+  weight_kg: 0.2
+  length_cm: 25
+  width_cm: 22
+  height_cm: 4
+
+auto_translate:
+  enabled: true
+  language: "es"          # 西班牙语
+  translate_manual_edited: false
+
+auto_ads_after_publish: false
+
+anti_duplicate:
+  filter_published: true          # 过滤已被发布的商品
+  price_range_percent: 1          # 产品价格幅度 ±1%
+  shuffle_images: false           # 打乱图片顺序
+
+product_detail:
+  truncate_over_limit: true       # 超过最大字符限制时自动截断
+
+product_title:
+  truncate_enabled: true
+  max_chars: 255
+  truncate_from: "end"            # 最后面的字符
+
+sku_spec:
+  attr_name_truncate: true
+  attr_name_max_chars: 20
+  attr_value_truncate: true
+  attr_value_max_chars: 50
+  truncate_from: "end"
+  auto_delete_when_over_250_skus: false
+  do_not_translate_attr_name: false
+  do_not_translate_platform_sku: false
+
+platform_sku:
+  truncate_enabled: true
+  truncate_from: "end"
+
+prohibited_words:
+  mode: "none"                    # 不检测 | none
+
+price:
+  fill_max_when_over_limit: true  # 超出合法类型最大限制时用最大限制金额
+
+# 安全阀：代码默认不自动发布；CLI 需 --confirm
+require_confirm: true
+batch_size: 20                    # 单次提交 detailIds 上限（保守）
+min_interval_seconds: 2.0
